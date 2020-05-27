@@ -6,7 +6,8 @@ WARN = -Wall -Wextra -pedantic
 ALL = $(FLAGS) $(INCLUDE) $(OPTIM) $(WARN)
 
 default:
+	$(CXX) $(ALL) -c Scheduler/Database.hpp
 	$(CXX) $(ALL) -c main.cpp
-	$(CXX) -o main main.o
-	rm -f main.o
+	$(CXX) -o main main.o -lsqlite3
+	rm -f main.o Scheduler/*.gch
 

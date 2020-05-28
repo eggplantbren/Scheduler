@@ -54,6 +54,13 @@ Database::Database()
                 (id     INTEGER PRIMARY KEY,\
                  name   TEXT UNIQUE NOT NULL);";
 
+    // Completions
+    db << "CREATE TABLE IF NOT EXISTS completions\
+                (id     INTEGER PRIMARY KEY,\
+                 time   INTEGER NOT NULL,\
+                 task   INTEGER NOT NULL,\
+                 FOREIGN KEY (task) REFERENCES tasks (id));";
+
     db << "COMMIT;";
 }
 

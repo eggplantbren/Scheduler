@@ -63,17 +63,41 @@ void Database::list_categories()
     db << "SELECT id, name FROM categories"
        >> [&] (int id, const std::string& name)
           {
-              std::cout << id << ' ' << name << '\n'; 
+              std::stringstream ss;
+              ss << '[' << id << ']';
+              while(ss.str().size() < 10)
+                  ss << ' ';
+              ss << name << '\n';
+              std::cout << ss.str();
           };
     std::cout << std::endl;
 }
 
 bool Database::add_category()
 {
-    std::cout << "EXISTING ";
+    // Print out the categories that already exist
     list_categories();
 
-    return true;
+    // Get the new category from the user
+    std::cout << "Enter the name of the new category: ";
+    std::string response;
+    std::cin >> response;
+
+    // Try to insert into the database
+    bool success = true;
+    try
+    {
+        db << "BEGIN;";
+        db << "INSERT INTO categories (name) VALUES (?)" << response;
+        db << "COMMIT;";
+    }
+    catch(...)
+    {
+        std::cerr << "Error adding new category." << std::endl;
+        success = false;
+    }
+
+    return success;
 }
 
 } // namespace
